@@ -14,10 +14,10 @@ var Queue = function() {
 
   someInstance.dequeue = function() {
     var dequeued = storage[0];
-    for (var i = 0; i < size; i++) {
-      storage[i] = storage[i + 1]
-    }
     size--;
+    for (var i = 0; i < size; i++) {
+      storage[i] = storage[i + 1];
+    }
     return dequeued;
   };
 
