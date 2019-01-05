@@ -24,7 +24,6 @@ var LinkedList = function() {
 
   list.contains = function(target) {
    var node = this.head;
-   debugger;
    while (node !== null) {
      if (node.value === target) {
        return true;
