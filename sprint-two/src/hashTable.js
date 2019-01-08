@@ -1,5 +1,3 @@
-
-
 var HashTable = function() {
   this._limit = 8;
   this._storage = LimitedArray(this._limit);
@@ -43,33 +41,38 @@ HashTable.prototype.remove = function(k) {
   for (let i = 0; i<bucket.length; i++) {
     if (bucket[i][0] === k){
       bucket.splice(i,1);
+      this._tuplesCount--;
     }
   }
-  if (this._tuplesCount <= 0.25 * this._limit) {
+  if (this._tuplesCount <= 0.25 * this._limit && this._limit > 8) {
     this.rehash(false);
   }
 };
 
 HashTable.prototype.rehash = function(isTooBig) {
-  var newLimit = isTooBig ? this._limit * 2 : this._limit / 2;
-  var rehashedStorage = LimitedArray(newLimit);
+  console.log('rehashified');
+  this._limit = isTooBig ? (this._limit * 2) : (this._limit / 2);
+  var rehashedStorage = LimitedArray(this._limit);
+  var temp = [];
 
-  for (var i = 0; i < this._storage.length; i++) {
-    // check if [] exists in storage
-    for (var j = 0; j < this._storage[i].length; j++) {
-      var tuple = this._storage[i][j];
-      var index = getIndexBelowMaxForKey(this._storage[i][j][0], newLimit);
-
+  var buckets = Object.values(this._storage);
+  for (var i = 0; i < buckets.length; i++) {
+    if (Array.isArray(buckets[i])) {
+      for (var j = 0; j < buckets[i].length; j++) {
+        temp.push(buckets[i][j]);
+      }
     }
   }
 
+  this._storage = rehashedStorage;
+  this._tuplesCount = 0;
+  var cb = function(tuple) {
+    this.insert(...tuple);
+  };
+
+  _.each(temp, cb.bind(this));
 
 };
-// input: isTooBig true or false
-// new array = LimitedArray(this._size-limit*2 or / 2)
-// traverse all buckets, tuples
-  // generate new index, insert
-// reassign this._storage to new array
 
 
 /*
