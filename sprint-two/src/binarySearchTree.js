@@ -47,6 +47,41 @@ BinarySearchTree.prototype.depthFirstLog = function(cb) {
   }
 };
 
+BinarySearchTree.prototype.breadthFirstLog = function() {
+  var nodes = [];
+  var level = 0;
+  nodes.push([this]);
+
+  var traverseBreadth = function(subArr) {
+
+    nodes[level + 1] = [];
+
+    _.each(subArr, function(node) {
+      if (node.left) {
+        nodes[level + 1].push(node.left);
+      }
+      if (node.right) {
+        nodes[level + 1].push(node.right);
+      }
+    });
+
+    if (nodes[level + 1].length > 0) {
+      level++;
+      traverseBreadth(nodes[level]);
+    } else {
+      nodes.pop();
+    }
+  };
+
+  traverseBreadth(nodes[level]);
+
+  return nodes;
+};
+
+// breadthfirstlog => DONE
+// max and min lengths of tree branches
+// rebalancing function
+
 /*
  * Complexity: What is the time complexity of the above functions?
  */
