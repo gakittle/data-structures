@@ -11,20 +11,11 @@ var Tree = function(value) {
 var treeMethods = {};
 
 treeMethods.addChild = function(value) {
-  // create newTree(value)
-  // push that new node into Tree children
   var sapling = Tree(value);
   this.children.push(sapling);
 };
 
 treeMethods.contains = function(target) {
-  // compare tree value to target
-    // return true if match
-
-  // if children.length > 0
-    // recurse!
-    // else return false
-
     if (this.value === target) {
       return true;
     } else if (this.children.length > 0) {
@@ -34,26 +25,16 @@ treeMethods.contains = function(target) {
         }
       }
     } return false;
-
-
-  //  var isFound = false;
-
-  //  var traverseTree = function(tree) {
-  //   if (tree.value === target) {
-  //     isFound = true;
-  //   } else if (tree.children.length > 0) {
-  //     for (var i = 0; i < tree.children.length; i++) {
-  //       tree.children[i].(tree.children[i].target);
-  //     }
-  //   }
-  //  };
-
-  //  traverseTree(this);
-
-  //  return isFound;
 };
 
-
+treeMethods.traverse = function(cb) {
+  cb(this);
+  if (this.children) {
+    _.each(this.children, function(child) {
+      child.traverse(cb);
+    });
+  }
+};
 
 /*
  * Complexity: What is the time complexity of the above functions?
