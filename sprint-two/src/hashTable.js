@@ -50,7 +50,6 @@ HashTable.prototype.remove = function(k) {
 };
 
 HashTable.prototype.rehash = function(isTooBig) {
-  console.log('rehashified');
   this._limit = isTooBig ? (this._limit * 2) : (this._limit / 2);
   var rehashedStorage = LimitedArray(this._limit);
   var temp = [];
