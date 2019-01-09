@@ -8,11 +8,17 @@ var Set = function() {
 var setPrototype = {};
 
 setPrototype.add = function(item) {
+  if (typeof(item) === 'object' || typeof(item) === 'function') {
+    item = JSON.stringify(item);
+  }
   this._storage[this.size] = item;
   this.size++;
 };
 
 setPrototype.contains = function(item) {
+  if (typeof(item) === 'object' || typeof(item) === 'function') {
+    item = JSON.stringify(item);
+  }
   for (var key in this._storage) {
     if (this._storage[key] === item) {
       return true;
@@ -21,6 +27,9 @@ setPrototype.contains = function(item) {
 };
 
 setPrototype.remove = function(item) {
+  if (typeof(item) === 'object' || typeof(item) === 'function') {
+    item = JSON.stringify(item);
+  }
   for (var key in this._storage) {
     if (this._storage[key] === item) {
       delete this._storage[key];
