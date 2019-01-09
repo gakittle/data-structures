@@ -2,18 +2,24 @@ var BinarySearchTree = function(value) {
   this.value = value;
   this.left = null;
   this.right = null;
+  this.level = 0;
 };
 
 BinarySearchTree.prototype.insert = function(value) {
   if (this.value > value) {
-    if (this.left === null) {
+    if (!this.left) {
       this.left = new BinarySearchTree(value);
+      this.left.level = this.level + 1;
+      // return nodes from breadthfirstlog
+      // invoke rebalancingNeeded, returns true/false
+      this.rebalancingNeeded(this.breadthFirstLog());
     } else {
       this.left.insert(value);
     }
   } else {
-    if (this.right === null) {
+    if (!this.right) {
       this.right = new BinarySearchTree(value);
+      this.right.level = this.level + 1;
     } else {
       this.right.insert(value);
     }
@@ -53,7 +59,6 @@ BinarySearchTree.prototype.breadthFirstLog = function() {
   nodes.push([this]);
 
   var traverseBreadth = function(subArr) {
-
     nodes[level + 1] = [];
 
     _.each(subArr, function(node) {
@@ -74,8 +79,12 @@ BinarySearchTree.prototype.breadthFirstLog = function() {
   };
 
   traverseBreadth(nodes[level]);
-
   return nodes;
+};
+
+BinarySearchTree.prototype.rebalancingNeeded = function(array) {
+  // do stuff;
+  // return true/false;
 };
 
 // breadthfirstlog => DONE
@@ -85,3 +94,11 @@ BinarySearchTree.prototype.breadthFirstLog = function() {
 /*
  * Complexity: What is the time complexity of the above functions?
  */
+
+ // determine if rebalancing needed after addition:
+   // for each parent of inserted node
+     // increment max level from bottom
+     // if this parent and all its children are balanced tree
+       // rebalance this subtree
+     // else check next level
+   // 
