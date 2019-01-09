@@ -24,4 +24,27 @@ describe('set', function() {
     expect(set.contains('Mel Gibson')).to.equal(false);
   });
 
+  it('should handle inputs of any type', function() {
+    set.add(3);
+    set.add(null);
+    set.add(false);
+    set.add({'hack' : 'reactor'});
+    set.add(function() { return 'Nick improved my workflow'; });
+    expect(set.contains(3)).to.equal(true);
+    expect(set.contains(null)).to.equal(true);
+    expect(set.contains(false)).to.equal(true);
+    expect(set.contains({'hack' : 'reactor'})).to.eql(true);
+    expect(set.contains(function() { return 'Nick improved my workflow'; })).to.eql(true);
+    set.remove(3);
+    set.remove(null);
+    set.remove(false);
+    set.remove({'hack' : 'reactor'});
+    set.remove(function() { return 'Nick improved my workflow'; });
+    expect(set.contains(3)).to.equal(false);
+    expect(set.contains(null)).to.equal(false);
+    expect(set.contains(false)).to.equal(false);
+    expect(set.contains({'hack' : 'reactor'})).to.eql(false);
+    expect(set.contains(function() { return 'Nick improved my workflow'; })).to.eql(false);
+  });
+
 });
