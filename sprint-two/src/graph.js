@@ -1,5 +1,3 @@
-
-
 // Instantiate a new graph
 var Graph = function(node) {
 };
@@ -28,9 +26,13 @@ Graph.prototype.hasEdge = function(fromNode, toNode) {
 };
 
 // Connects two nodes in a graph by adding an edge between them.
-Graph.prototype.addEdge = function(fromNode, toNode) {
-  this[fromNode].push(toNode);
-  this[toNode].push(fromNode);
+Graph.prototype.addEdge = function(fromNode) {
+  var toNodes = Array.from(arguments).slice(1);
+  var cb = function(toNode) {
+    this[fromNode].push(toNode);
+    this[toNode].push(fromNode);
+  };
+  _.each(toNodes, cb.bind(this));
 };
 
 // Remove an edge between any two specified (by value) nodes.
